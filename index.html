@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#101725">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<title>Royal Chess Ultimate</title>
+<style>
+:root{color-scheme:dark;--bg:#101725;--panel:#192437;--panel2:#24334b;--gold:#e8bd69;--txt:#f3f5f9;--muted:#9baac0;--light:#e8d5b6;--dark:#718d75}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--txt);font-family:system-ui,Arial,sans-serif;overscroll-behavior:none}
+body{min-height:100dvh}.app{max-width:1200px;margin:auto;min-height:100dvh;padding-bottom:18px}
+header{height:64px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;background:var(--panel);border-bottom:1px solid #ffffff12;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:40px;height:40px;border-radius:12px;background:var(--gold);color:#151a22;display:grid;place-items:center;font-size:27px}.brand b{letter-spacing:1px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.3px}
+button,select{font:inherit}button{cursor:pointer;touch-action:manipulation}.headbtn,.btn{border:0;border-radius:11px;background:var(--panel2);color:var(--txt);padding:10px 13px}.headbtn{font-size:18px}
+.layout{display:grid;grid-template-columns:210px minmax(280px,620px) 240px;gap:15px;padding:16px;justify-content:center;align-items:start}
+.panel{background:var(--panel);border:1px solid #ffffff0d;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 8px 24px #0002}
+.ptitle{color:var(--gold);font-size:11px;font-weight:800;letter-spacing:1.2px;margin-bottom:12px}
+label{display:block;color:var(--muted);font-size:12px;margin:9px 0 5px}select{width:100%;padding:11px;border:1px solid #ffffff18;border-radius:10px;background:var(--panel2);color:white}
+.gold{background:var(--gold)!important;color:#171717!important;font-weight:800}.wide{width:100%;margin-top:10px}
+h2{font-size:18px;margin:0}.heading{display:flex;align-items:center;justify-content:space-between;margin:0 0 12px}.live{font-size:10px;color:#79dca8;background:#163d34;padding:6px 9px;border-radius:30px}
+.player{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--panel);border:1px solid #ffffff0c;border-radius:13px;margin:8px 0}.player.active{border-color:var(--gold)}.avatar{font-size:27px;background:var(--panel2);width:39px;height:39px;display:grid;place-items:center;border-radius:10px}.pname{font-size:12px;font-weight:800}.psub{font-size:10px;color:var(--muted);margin-top:3px}.clock{margin-left:auto;color:var(--gold);font-size:21px;font-weight:800;font-variant-numeric:tabular-nums}
+.boardwrap{background:var(--panel);padding:9px;border-radius:16px;border:1px solid #ffffff0d}.boardrow{display:flex;gap:5px}.ranks{display:flex;flex-direction:column;justify-content:space-around;color:var(--gold);font-size:10px;padding:2px}.boardcol{flex:1;min-width:0}#board{display:grid;grid-template-columns:repeat(8,1fr);width:100%;aspect-ratio:1;border:3px solid #b68b4a;border-radius:4px;overflow:hidden;touch-action:manipulation}
+.sq{display:grid;place-items:center;position:relative;min-width:0;min-height:0;aspect-ratio:1;font-size:clamp(22px,6.3vw,49px);line-height:1;user-select:none;-webkit-user-select:none}.sq.light{background:var(--light)}.sq.dark{background:var(--dark)}.sq.selected{background:#f4d15b!important}.sq.last{background:#c8b45d!important}.sq.check{background:#d95353!important}.sq.dot:after{content:"";position:absolute;width:23%;height:23%;border-radius:50%;background:#2228}.sq.capture:after{content:"";position:absolute;inset:3px;border:4px solid #2228;border-radius:50%}.files{display:flex;justify-content:space-around;color:var(--gold);font-size:10px;padding-top:5px}
+.status{text-align:center;min-height:34px;padding:9px;color:var(--gold);font-weight:700;font-size:13px}.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}.action{padding:10px 3px;border:0;border-radius:11px;background:var(--panel2);color:white;font-size:11px}.action span{display:block;font-size:18px;margin-bottom:3px}
+.moves{max-height:280px;overflow:auto;background:#111b2a;border-radius:10px;padding:7px;font-size:12px}.move{display:grid;grid-template-columns:25px 1fr 1fr;padding:8px 4px;border-bottom:1px solid #ffffff0a}.move:nth-child(even){background:#ffffff06}.num{color:var(--gold)}.statgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.stat{background:var(--panel2);border-radius:10px;padding:11px;text-align:center}.stat b{display:block;color:var(--gold);font-size:20px}.stat small{color:var(--muted);font-size:10px}.muted{font-size:12px;color:var(--muted);line-height:1.5}
+.modal{display:none;position:fixed;inset:0;z-index:20;background:#000b;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.dialog{width:min(380px,100%);background:var(--panel);padding:22px;border:1px solid #ffffff22;border-radius:18px;text-align:center}.dialog h2{color:var(--gold);margin-bottom:10px}.dialog p{color:var(--muted);font-size:13px;line-height:1.5}.promotion{display:flex;justify-content:center;gap:8px;margin:16px}.promotion button{font-size:30px;padding:10px;border:0;border-radius:10px;background:var(--panel2);color:white}
+#installBtn{display:none}footer{text-align:center;color:var(--muted);font-size:10px;padding:12px}
+body.blue{--gold:#79c7f0;--light:#d8e4ef;--dark:#6085a8}body.wood{--gold:#f0bb72;--light:#eed6ad;--dark:#a56e43}body.green{--gold:#9cda9b;--light:#e0e7d5;--dark:#668c68}
+@media(max-width:900px){.layout{grid-template-columns:190px minmax(280px,1fr)}.right{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}.right .panel{margin:0}}
+@media(max-width:650px){header{height:56px;padding:0 12px}.brand b{font-size:14px}.layout{display:flex;flex-direction:column;padding:9px;gap:8px}.left,.center,.right{width:100%}.center{order:0}.left{order:1}.right{order:2;display:flex;flex-direction:column}.boardwrap{padding:6px}.sq{font-size:clamp(23px,9vw,44px)}.clock{font-size:19px}.panel{padding:12px}.hide-mobile{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><div class="logo">♛</div><div><b>ROYAL CHESS</b><small>ULTIMATE EDITION</small></div></div><div style="display:flex;gap:7px"><button class="headbtn" id="installBtn">＋</button><button class="headbtn" id="fullBtn" aria-label="Fullscreen">⛶</button></div></header>
+<div class="layout">
+<aside class="left">
+ <section class="panel"><div class="ptitle">NEW GAME</div>
+ <label for="side">Play as</label><select id="side"><option value="w">White</option><option value="b">Black</option></select>
+ <label for="level">AI difficulty</label><select id="level"><option value="1">Easy</option><option value="2" selected>Medium</option><option value="3">Hard</option></select>
+ <label for="clockSelect">Time control</label><select id="clockSelect"><option value="0">No clock</option><option value="180">3 minutes</option><option value="300">5 minutes</option><option value="600" selected>10 minutes</option><option value="900">15 minutes</option></select>
+ <button class="btn gold wide" id="newBtn">START GAME</button></section>
+ <section class="panel"><div class="ptitle">APPEARANCE</div><label for="theme">Board theme</label><select id="theme"><option value="default">Classic Gold</option><option value="blue">Ocean Blue</option><option value="wood">Wooden</option><option value="green">Forest</option></select><button class="btn wide" id="soundBtn">🔊 Sound ON</button></section>
+</aside>
+<main class="center">
+ <div class="heading"><h2>Chess Arena</h2><span class="live">● LIVE GAME</span></div>
+ <div class="player" id="blackPlayer"><div class="avatar">♚</div><div><div class="pname">BLACK</div><div class="psub" id="blackLabel">Computer</div><div class="psub" id="blackCaptured"></div></div><div class="clock" id="blackTime">10:00</div></div>
+ <div class="boardwrap"><div class="boardrow"><div class="ranks" id="ranks"></div><div class="boardcol"><div id="board"></div><div class="files" id="files"></div></div></div></div>
+ <div class="status" id="status">Your turn</div>
+ <div class="player" id="whitePlayer"><div class="avatar">♔</div><div><div class="pname">WHITE</div><div class="psub" id="whiteLabel">You</div><div class="psub" id="whiteCaptured"></div></div><div class="clock" id="whiteTime">10:00</div></div>
+ <div class="actions"><button class="action gold" id="newAction"><span>↻</span>New Game</button><button class="action" id="undoBtn"><span>↶</span>Undo</button><button class="action" id="hintBtn"><span>✦</span>Hint</button><button class="action" id="flipBtn"><span>⇅</span>Flip</button></div>
+</main>
+<aside class="right">
+ <section class="panel"><div class="ptitle">GAME OVERVIEW</div><div class="statgrid"><div class="stat"><b id="moveCount">0</b><small>MOVES</small></div><div class="stat"><b id="material">Equal</b><small>MATERIAL</small></div></div><p class="muted" id="gameState">Game ready</p></section>
+ <section class="panel"><div class="ptitle">MOVE HISTORY</div><div class="moves" id="history">No moves yet</div></section>
+ <section class="panel"><div class="ptitle">QUICK ACTIONS</div><button class="btn wide" id="saveBtn">Save Game</button><button class="btn wide" id="loadBtn">Load Saved Game</button><button class="btn wide" id="resignBtn">Resign</button><p class="muted">Games and statistics are stored on this device.</p><div class="statgrid"><div class="stat"><b id="wins">0</b><small>WINS</small></div><div class="stat"><b id="losses">0</b><small>LOSSES</small></div></div></section>
+</aside>
+</div><footer>ROYAL CHESS ULTIMATE • APP EDITION</footer></div>
+<div class="modal" id="promoModal"><div class="dialog"><h2>Pawn Promotion</h2><p>Choose your piece</p><div class="promotion"><button data-promo="q">♕</button><button data-promo="r">♖</button><button data-promo="b">♗</button><button data-promo="n">♘</button></div><button class="btn wide" id="cancelPromo">Cancel</button></div></div>
+<div class="modal" id="resultModal"><div class="dialog"><h2 id="resultTitle">GAME OVER</h2><p id="resultText"></p><button class="btn gold wide" id="againBtn">PLAY AGAIN</button><button class="btn wide" id="closeResult">Close</button></div></div>
+<script src="./chess.min.js"></script>
+<script>
+"use strict";
+if(typeof Chess==="undefined"){document.getElementById("status").textContent="Chess engine missing. Connect to the internet and reload.";throw Error("chess.js missing");}
+const chess=new Chess(),$=id=>document.getElementById(id);
+const glyph={wp:"♙",wr:"♖",wn:"♘",wb:"♗",wq:"♕",wk:"♔",bp:"♟",br:"♜",bn:"♞",bb:"♝",bq:"♛",bk:"♚"};
+const vals={p:100,n:320,b:330,r:500,q:900,k:20000};
+let player="w",flipped=false,selected=null,targets=[],lastMove=null,thinking=false,gameOver=false,sound=true,stack=[],timeLimit=600,wt=600,bt=600,timer=null,lastTick=Date.now(),pending=null,deferredInstall=null,stats=readStats();
+function readStats(){try{return JSON.parse(localStorage.getItem("royalStats"))||{win:0,loss:0,draw:0}}catch(e){return {win:0,loss:0,draw:0}}}
+function saveStats(){localStorage.setItem("royalStats",JSON.stringify(stats));$("wins").textContent=stats.win||0;$("losses").textContent=stats.loss||0}
+function square(r,c){return "abcdefgh"[c]+(8-r)}
+function kingSquare(color){const b=chess.board();for(let r=0;r<8;r++)for(let c=0;c<8;c++){let p=b[r][c];if(p&&p.type==="k"&&p.color===color)return square(r,c)}return null}
+function render(){
+ const board=$("board");board.innerHTML="";let rows=[0,1,2,3,4,5,6,7],cols=[0,1,2,3,4,5,6,7];if(flipped){rows.reverse();cols.reverse()}
+ const matrix=chess.board(),checked=chess.in_check()?kingSquare(chess.turn()):null;
+ rows.forEach(r=>cols.forEach(c=>{let name=square(r,c),piece=matrix[r][c],el=document.createElement("div");el.className="sq "+((r+c)%2===0?"light":"dark");if(selected===name)el.classList.add("selected");if(lastMove&&(lastMove.from===name||lastMove.to===name))el.classList.add("last");if(name===checked)el.classList.add("check");if(targets.includes(name))el.classList.add(piece?"capture":"dot");if(piece)el.textContent=glyph[piece.color+piece.type];el.addEventListener("click",()=>tap(name));board.appendChild(el)}));
+ $("ranks").innerHTML=rows.map(r=>"<span>"+(8-r)+"</span>").join("");$("files").innerHTML=cols.map(c=>"<span>"+"abcdefgh"[c]+"</span>").join("");update();
+}
+function tap(name){if(gameOver||thinking||pending||chess.turn()!==player)return;let p=chess.get(name);if(selected&&targets.includes(name)){movePlayer(selected,name);return}if(p&&p.color===player){selected=name;targets=chess.moves({square:name,verbose:true}).map(m=>m.to)}else{selected=null;targets=[]}render()}
+function movePlayer(from,to){let p=chess.get(from);if(p&&p.type==="p"&&((p.color==="w"&&to[1]==="8")||(p.color==="b"&&to[1]==="1"))){pending={from,to};$("promoModal").classList.add("show");return}play(from,to,"q")}
+function play(from,to,promotion){snapshot();let m=chess.move({from,to,promotion});if(!m)return;lastMove={from:m.from,to:m.to};selected=null;targets=[];beep();render();if(checkEnd())return;if(chess.turn()!==player)computerMove()}
+document.querySelectorAll("[data-promo]").forEach(b=>b.onclick=()=>{if(!pending)return;let p=pending;pending=null;$("promoModal").classList.remove("show");play(p.from,p.to,b.dataset.promo)});
+$("cancelPromo").onclick=()=>{pending=null;$("promoModal").classList.remove("show")};
+function evaluate(){let score=0,b=chess.board();for(let r=0;r<8;r++)for(let c=0;c<8;c++){let p=b[r][c];if(!p)continue;let v=vals[p.type],center=3.5-(Math.abs(3.5-r)+Math.abs(3.5-c))/2;if(p.type==="n"||p.type==="b")v+=center*8;if(p.type==="p")v+=(p.color==="w"?6-r:r-1)*3;score+=p.color==="w"?v:-v}return score}
+function search(depth,alpha,beta,max){if(depth===0||chess.game_over())return evaluate();let moves=chess.moves({verbose:true});if(max){let best=-Infinity;for(let m of moves){chess.move(m);let v=search(depth-1,alpha,beta,false);chess.undo();best=Math.max(best,v);alpha=Math.max(alpha,v);if(beta<=alpha)break}return best}else{let best=Infinity;for(let m of moves){chess.move(m);let v=search(depth-1,alpha,beta,true);chess.undo();best=Math.min(best,v);beta=Math.min(beta,v);if(beta<=alpha)break}return best}}
+function bestMove(depth){let moves=chess.moves({verbose:true}),white=chess.turn()==="w",best=null,score=white?-Infinity:Infinity;for(let m of moves){chess.move(m);let v=search(depth-1,-Infinity,Infinity,chess.turn()==="w");chess.undo();if((white&&v>score)||(!white&&v<score)){score=v;best=m}}return best}
+function computerMove(){if(gameOver)return;thinking=true;updateStatus();setTimeout(()=>{if(gameOver){thinking=false;return}let d=Number($("level").value),m=bestMove(d===1?1:d===2?2:3);if(m){snapshot();let played=chess.move({from:m.from,to:m.to,promotion:"q"});lastMove={from:played.from,to:played.to};beep()}thinking=false;render();checkEnd()},120)}
+function hint(){if(gameOver||thinking||chess.turn()!==player)return;thinking=true;updateStatus();setTimeout(()=>{let m=bestMove(2);thinking=false;if(m){selected=m.from;targets=[m.to]}render()},40)}
+function snapshot(){stack.push({fen:chess.fen(),last:lastMove,wt,bt});if(stack.length>80)stack.shift()}
+function undo(){if(thinking||pending||!stack.length)return;restore();if(chess.turn()!==player&&stack.length)restore();gameOver=false;$("resultModal").classList.remove("show");selected=null;targets=[];render()}
+function restore(){let s=stack.pop();if(!s)return;chess.load(s.fen);lastMove=s.last;wt=s.wt;bt=s.bt}
+function updateStatus(){if(gameOver)return;$("status").textContent=thinking?"AI is thinking…":chess.in_check()?"CHECK!":chess.turn()===player?"Your turn":"AI turn"}
+function checkEnd(){if(chess.in_checkmate()){finish(chess.turn()==="w"?"Black wins!":"White wins!","CHECKMATE",chess.turn()===player?"loss":"win");return true}if(chess.in_stalemate()||chess.in_draw()){finish("The game ended in a draw.","DRAW","draw");return true}return false}
+function finish(msg,title,result){if(gameOver)return;gameOver=true;$("resultTitle").textContent=title;$("resultText").textContent=msg;$("resultModal").classList.add("show");stats[result]=(stats[result]||0)+1;stats.games=(stats.games||0)+1;localStorage.setItem("royalStats",JSON.stringify(stats));saveStats();update()}
+function resign(){if(gameOver||thinking)return;finish(player==="w"?"Black wins!":"White wins!","RESIGNED","loss")}
+function fmt(s){s=Math.max(0,Math.ceil(s));return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function updateClock(){$("whiteTime").textContent=fmt(wt);$("blackTime").textContent=fmt(bt)}
+function startClock(){clearInterval(timer);lastTick=Date.now();timer=setInterval(()=>{let now=Date.now(),elapsed=(now-lastTick)/1000;lastTick=now;if(gameOver||!timeLimit)return;if(chess.turn()==="w")wt=Math.max(0,wt-elapsed);else bt=Math.max(0,bt-elapsed);if(wt<=0)finish("Black wins on time!","TIME OUT",player==="w"?"loss":"win");if(bt<=0)finish("White wins on time!","TIME OUT",player==="b"?"loss":"win");updateClock()},250)}
+function update(){updateClock();let h=chess.history();if(!h.length)$("history").textContent="No moves yet";else{let out="";for(let i=0;i<h.length;i+=2)out+='<div class="move"><span class="num">'+(i/2+1)+'.</span><span>'+h[i]+'</span><span>'+(h[i+1]||"")+'</span></div>';$("history").innerHTML=out;$("history").scrollTop=$("history").scrollHeight}
+$("moveCount").textContent=h.length;$("gameState").textContent=gameOver?"GAME OVER":chess.in_check()?"CHECK":"PLAYING";let w=0,b=0;chess.board().forEach(row=>row.forEach(p=>{if(p){if(p.color==="w")w+=vals[p.type];else b+=vals[p.type]}}));let diff=Math.round((w-b)/100);$("material").textContent=diff===0?"Equal":(diff>0?"White +":"Black +")+Math.abs(diff);$("whitePlayer").classList.toggle("active",chess.turn()==="w"&&!gameOver);$("blackPlayer").classList.toggle("active",chess.turn()==="b"&&!gameOver);$("whiteLabel").textContent=player==="w"?"You":"Computer";$("blackLabel").textContent=player==="b"?"You":"Computer";let caps={w:[],b:[]};chess.history({verbose:true}).forEach(m=>{if(m.captured)caps[m.color==="w"?"b":"w"].push(glyph[(m.color==="w"?"b":"w")+m.captured])});$("whiteCaptured").textContent=caps.w.join(" ");$("blackCaptured").textContent=caps.b.join(" ");updateStatus()}
+function newGame(){chess.reset();player=$("side").value;timeLimit=Number($("clockSelect").value);wt=bt=timeLimit;stack=[];lastMove=null;selected=null;targets=[];thinking=false;gameOver=false;pending=null;$("promoModal").classList.remove("show");$("resultModal").classList.remove("show");startClock();render();if(player==="b")computerMove()}
+function saveGame(){localStorage.setItem("royalChessSave",JSON.stringify({moves:chess.history(),player,flipped,wt,bt,timeLimit,theme:document.body.className}));alert("Game saved on this device.")}
+function loadGame(){try{let d=JSON.parse(localStorage.getItem("royalChessSave"));if(!d){alert("No saved game found.");return}chess.reset();d.moves.forEach(m=>chess.move(m));player=d.player||"w";flipped=!!d.flipped;wt=d.wt;bt=d.bt;timeLimit=d.timeLimit;document.body.className=d.theme||"";stack=[];lastMove=null;gameOver=false;startClock();render();if(chess.turn()!==player)computerMove()}catch(e){alert("Could not load saved game.")}}
+function beep(){if(!sound)return;try{let c=new AudioContext(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=520;g.gain.value=.035;o.start();o.stop(c.currentTime+.07);o.onended=()=>c.close()}catch(e){}}
+$("newBtn").onclick=$("newAction").onclick=newGame;$("undoBtn").onclick=undo;$("hintBtn").onclick=hint;$("flipBtn").onclick=()=>{flipped=!flipped;render()};$("saveBtn").onclick=saveGame;$("loadBtn").onclick=loadGame;$("resignBtn").onclick=resign;$("againBtn").onclick=newGame;$("closeResult").onclick=()=>$("resultModal").classList.remove("show");
+$("fullBtn").onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.()};
+$("soundBtn").onclick=()=>{sound=!sound;$("soundBtn").textContent=sound?"🔊 Sound ON":"🔇 Sound OFF"};
+$("theme").onchange=()=>{document.body.className=$("theme").value==="default"?"":$("theme").value;localStorage.setItem("royalTheme",$("theme").value)};
+$("clockSelect").onchange=()=>{timeLimit=Number($("clockSelect").value);wt=bt=timeLimit;startClock();updateClock()};
+let savedTheme=localStorage.getItem("royalTheme");if(savedTheme){$("theme").value=savedTheme;document.body.className=savedTheme==="default"?"":savedTheme}
+$("wins").textContent=stats.win||0;$("losses").textContent=stats.loss||0;newGame();
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("installBtn").style.display="block"});
+$("installBtn").onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$("installBtn").style.display="none"};
+if("serviceWorker" in navigator && location.protocol!=="file:"){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
+</script>
+</body></html>
